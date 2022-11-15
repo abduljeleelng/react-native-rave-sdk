@@ -10,13 +10,13 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "clean": "rimraf ./lib",
-    "build": "npx tsc ./src/index.ts",
+    "build": "npx tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly" : "npm test && npm run lint && npm run clean",
     "prepare" : "npm run build",
     "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
+    "version" : "npm run format",
     "postversion" : "git push && git push --tags"
   },
   "repository": {
