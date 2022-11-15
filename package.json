@@ -1,6 +1,6 @@
 {
   "name": "react-native-rave-sdk",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "React Native Fluterwave Rave SDK ",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,7 +16,7 @@
     "prepublishOnly": "npm test && npm run lint && npm run clean",
     "prepare": "npm run build",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
+    "version": "",
     "postversion": "git push && git push --tags"
   },
   "repository": {
