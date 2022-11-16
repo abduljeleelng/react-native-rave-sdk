@@ -1,1 +1,4 @@
-export const Greeter = (name: string) => `Hello ${name}`;
+import Rave from './rave';
+
+export default Rave;
+
