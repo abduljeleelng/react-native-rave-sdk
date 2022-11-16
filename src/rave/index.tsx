@@ -26,10 +26,17 @@ interface RavePropInterface {
     onFailed?:any;
     onSuccess?:any;
     onVerifyingError?:any;
-    // design
+   
     colour:string;
     buttonText:string;
-    // : Type | undefined;
+    
+}
+
+
+interface PostMessageDataInterface {
+    event:string, 
+    transactionRef:Object, 
+    txid:string
 }
 
 export default function Rave(props:RavePropInterface) {
@@ -38,6 +45,21 @@ export default function Rave(props:RavePropInterface) {
         consumer_id, consumer_mac,email,phone_number, name,title,description,logo,
         colour,buttonText
     } = props
+
+    const meta ={
+        consumer_id,
+        consumer_mac,
+    }
+    const customer={
+        email,
+        phone_number,
+        name,
+    }
+    const customizations={
+        title,
+        description,
+        logo,
+    }
     const [value, setvalue] = useState<{visible:boolean,loading:boolean,verify:boolean}>({
         visible:false,
         loading:false,
@@ -47,36 +69,13 @@ export default function Rave(props:RavePropInterface) {
     const  mounted =  React.useRef(true);
 
     useEffect(() => {
-        // effect
-        // messageRecived()
         return () => {
-            // cleanup
             mounted.current = false;
         }
     },[])
 
-
-/*
-    useEffect(() => {
-        autoStartCheck();
-    }, []);
-    
-    const autoStartCheck = () => {
-        if (props.autoStart) {
-          setModalVisible(true);
-        }
-    };
-    
-    useImperativeHandle(ref, () => ({
-        StartTransaction() {
-          setModalVisible(true);
-        },
-    }));
-*/
-    
-    const messageRecived = async ({data}:{data:any}) => {
+    const messageRecived = async (data:any)=> {
         const webResponse = JSON.parse(data);
-        // console.log(JSON.stringify(webResponse));
         switch (webResponse.event) {
             case "cancelled":
               {
@@ -84,8 +83,8 @@ export default function Rave(props:RavePropInterface) {
                     setvalue({...value,visible:false,loading:false})
                     return props.onCancel({"error":"Transaction was cancelled"});
                 } catch (error) {
-                    // console.log(error)
-                    return {"error":"Transaction was cancelled"}
+                    setvalue({...value,visible:false,loading:false})
+                    return props.onCancel({"error":"Transaction was cancelled"});
                 }
               }
             break;
@@ -93,11 +92,10 @@ export default function Rave(props:RavePropInterface) {
                 {
                     try {
                         setvalue({...value,visible:false,loading:false})
-                        // console.log(`Cancelled the Transaction of ${props.amount}`),
-                        props.onFailed({"error":"Transaction was Failed", data:webResponse});
+                        return props.onFailed({"error":"Transaction was Failed", data:webResponse});
                     } catch (error) {
-                        // console.log(error)
-                       return {"error":"Transaction was Failed", "data":webResponse}
+                        setvalue({...value,visible:false,loading:false})
+                        return props.onFailed({"error":"Transaction was Failed", data:webResponse});
                     }
                 }
             break;
@@ -116,22 +114,18 @@ export default function Rave(props:RavePropInterface) {
                             return props.onVerifyingError({"error":"Error in verifying user payment, However, user may bill"});
                         }
                     } catch (error) {
-                        // console.log(error);
-                        return {"error":"Error in verifying user payment, However, user may bill"}
+                        setvalue({...value,visible:false,loading:false})
+                        return props.onFailed({"error":"Transaction was Failed", data:webResponse});
                     }
                 }
             break;
           default:
-              if(!mounted.current){
-                    //  console.log(mounted.current)
-                    setvalue({...value,verify:false,visible:false,loading:false})
-                    props.onCancel({"error":"Transaction errors"});
-                    return {"error":"Transaction errors"}
-                }else{
-                    // console.log(mounted.current)
-                    return {"error":"Transaction errors"}
-                }
-            break;
+            try {
+                setvalue({...value,visible:false,loading:false})
+                return props.onCancel({"error":"Transaction errors",data:webResponse});
+            } catch (error) {
+                return props.onCancel({"error":"Transaction errors",data:webResponse});
+            }
         }
     };
 
@@ -144,24 +138,17 @@ export default function Rave(props:RavePropInterface) {
         country,
         payment_options,
         redirect_url,
-        meta:{
-            consumer_id,
-            consumer_mac,
-        },
-        customer:{
-            email,
-            phone_number,
-            name,
-        },
-        customizations:{
-            title,
-            description,
-            logo,
-        }
-
+        consumer_id,
+        consumer_mac,
+        email,
+        phone_number,
+        name,
+        title,
+        description,
+        logo,
     }
 
-
+    console.log({visible, loading, verify} )
     return (
             <View style={styles.container}>
                 <Modal
@@ -169,12 +156,10 @@ export default function Rave(props:RavePropInterface) {
                     visible={visible}
                     animationType="slide"
                     transparent={true}
-                    // onRequestClose={()=>setvalue({...value, visible:false})}
                 >
                     <AutoHeightWebView
                         source={{ html: HtmlRave(payLoad)}}
                         style={styles.wevView}
-                        // scalesPageToFit={true}
                         onMessage={e => { messageRecived(e.nativeEvent.data)}}
                         onLoadStart={() => setvalue({...value, loading:true})}
                         onLoadEnd={() => setvalue({...value, loading:false})}
@@ -193,17 +178,20 @@ export default function Rave(props:RavePropInterface) {
                                 style={styles.modalView}
                                 visible={verify}
                                 animationType="slide"
-                                transparent={true}
-                                // onRequestClose={()=>setvalue({...value, visible:false})}
+                                transparent={false}
                             >
                                 <View
                                     style={{
                                         flex:1,
                                         height,
                                         width,
+                                        paddingHorizontal:30,
+                                        justifyContent:'center',
+                                        alignContent:'center',
+                                        alignItems:'center'
                                     }}
                                 >
-                                    <Text h5>Wait !, verifying your payment </Text>
+                                    <Text>Wait !, verifying your payment </Text>
                                     <ActivityIndicator size="large" color={colour} />
                                 </View>
                             </Modal>
@@ -220,14 +208,12 @@ export default function Rave(props:RavePropInterface) {
                     }
                 </>
             </View>
-        
     )
 }
 
 const {height,width} = Dimensions.get('screen');
 const styles = StyleSheet.create({
     container:{
-    //    marginHorizontal:-30,
     },
     modalView:{
         flex:1,
@@ -247,7 +233,7 @@ const styles = StyleSheet.create({
     wevView:{
         height, 
         width, 
-        marginVertical:50,
+        marginVertical:10,
     }
 });
 
@@ -257,4 +243,14 @@ Rave.defaultProps = {
     amount: 10,
     autoStart: false,
     currency:"NGN",
+    country: "NG",
+    payment_options: "card, mobilemoneyghana, ussd",
+    consumer_id: 23,
+    consumer_mac: "92a3-912ba-1192a",
+    email: "test@test.com",
+    phone_number: "09030304567",
+    name: "Rave SDK",
+    title: "Rave SDK",
+    description: "React native Rave SDK",
+    logo: "https://reactnative.dev/img/tiny_logo.png",
 };
