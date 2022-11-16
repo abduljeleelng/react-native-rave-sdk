@@ -44,7 +44,7 @@ export default function Rave(props:RavePropInterface) {
         verify:false,
     })
     const {visible, loading, verify} = value;
-    let mounted =  React.useRef(true);
+    const  mounted =  React.useRef(true);
 
     useEffect(() => {
         //effect
