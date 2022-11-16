@@ -47,10 +47,10 @@ export default function Rave(props:RavePropInterface) {
     const  mounted =  React.useRef(true);
 
     useEffect(() => {
-        //effect
-        //messageRecived()
+        // effect
+        // messageRecived()
         return () => {
-            //cleanup
+            // cleanup
             mounted.current = false;
         }
     },[])
@@ -75,15 +75,18 @@ export default function Rave(props:RavePropInterface) {
 */
     
     const messageRecived = async ({data}:{data:any}) => {
-        var webResponse = JSON.parse(data);
+        const webResponse = JSON.parse(data);
         console.log(JSON.stringify(webResponse));
         switch (webResponse.event) {
             case "cancelled":
               {
                 try {
                     setvalue({...value,visible:false,loading:false})
-                    props.onCancel({"error":"Transaction was cancelled"});
-                } catch (error) {console.log(error)}
+                    return props.onCancel({"error":"Transaction was cancelled"});
+                } catch (error) {
+                    console.log(error)
+                    return {"error":"Transaction was cancelled"}
+                }
               }
             break;
             case "failed":
@@ -92,7 +95,10 @@ export default function Rave(props:RavePropInterface) {
                         setvalue({...value,visible:false,loading:false})
                         //console.log(`Cancelled the Transaction of ${props.amount}`),
                         props.onFailed({"error":"Transaction was Failed", data:webResponse});
-                    } catch (error) {console.log(error)}
+                    } catch (error) {
+                        console.log(error)
+                       return {"error":"Transaction was Failed", "data":webResponse}
+                    }
                 }
             break;
             case "successful":
@@ -111,6 +117,7 @@ export default function Rave(props:RavePropInterface) {
                         }
                     } catch (error) {
                         console.log(error);
+                        return {"error":"Error in verifying user payment, However, user may bill"}
                     }
                 }
             break;
@@ -119,8 +126,10 @@ export default function Rave(props:RavePropInterface) {
                   console.log(mounted.current)
                    //setvalue({...value,verify:false,visible:false,loading:false})
                     props.onCancel({"error":"Transaction errors"});
+                    return {"error":"Transaction errors"}
                 }else{
                     console.log(mounted.current)
+                    return {"error":"Transaction errors"}
                 }
             break;
         }

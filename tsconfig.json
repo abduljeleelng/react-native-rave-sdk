@@ -106,7 +106,13 @@
   "exclude": [
     "node_modules", 
     "**/__tests__/*",
-  ]
+  ],
+  "rules": {
+    "no-console": false //Disable for typescript
+  },
+  "jsRules": {
+    "no-console": false //Disable for javascript
+  }
 }
 
 
