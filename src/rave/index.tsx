@@ -26,7 +26,7 @@ interface RavePropInterface {
     onFailed?:any;
     onSuccess?:any;
     onVerifyingError?:any;
-    //design
+    // design
     colour:string;
     buttonText:string;
     // : Type | undefined;
@@ -169,12 +169,12 @@ export default function Rave(props:RavePropInterface) {
                     visible={visible}
                     animationType="slide"
                     transparent={true}
-                    //onRequestClose={()=>setvalue({...value, visible:false})}
+                    // onRequestClose={()=>setvalue({...value, visible:false})}
                 >
                     <AutoHeightWebView
                         source={{ html: HtmlRave(payLoad)}}
                         style={styles.wevView}
-                        //scalesPageToFit={true}
+                        // scalesPageToFit={true}
                         onMessage={e => { messageRecived(e.nativeEvent.data)}}
                         onLoadStart={() => setvalue({...value, loading:true})}
                         onLoadEnd={() => setvalue({...value, loading:false})}
@@ -194,7 +194,7 @@ export default function Rave(props:RavePropInterface) {
                                 visible={verify}
                                 animationType="slide"
                                 transparent={true}
-                                //onRequestClose={()=>setvalue({...value, visible:false})}
+                                // onRequestClose={()=>setvalue({...value, visible:false})}
                             >
                                 <View
                                     style={{
