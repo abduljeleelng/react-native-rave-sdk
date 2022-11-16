@@ -35,7 +35,7 @@ interface RavePropInterface {
 
 interface PostMessageDataInterface {
     event:string, 
-    transactionRef:Object, 
+    transactionRef:object, 
     txid:string
 }
 
@@ -148,7 +148,6 @@ export default function Rave(props:RavePropInterface) {
         logo,
     }
 
-    console.log({visible, loading, verify} )
     return (
             <View style={styles.container}>
                 <Modal
