@@ -76,7 +76,7 @@ export default function Rave(props:RavePropInterface) {
     
     const messageRecived = async ({data}:{data:any}) => {
         const webResponse = JSON.parse(data);
-        console.log(JSON.stringify(webResponse));
+        // console.log(JSON.stringify(webResponse));
         switch (webResponse.event) {
             case "cancelled":
               {
@@ -84,7 +84,7 @@ export default function Rave(props:RavePropInterface) {
                     setvalue({...value,visible:false,loading:false})
                     return props.onCancel({"error":"Transaction was cancelled"});
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     return {"error":"Transaction was cancelled"}
                 }
               }
@@ -93,10 +93,10 @@ export default function Rave(props:RavePropInterface) {
                 {
                     try {
                         setvalue({...value,visible:false,loading:false})
-                        //console.log(`Cancelled the Transaction of ${props.amount}`),
+                        // console.log(`Cancelled the Transaction of ${props.amount}`),
                         props.onFailed({"error":"Transaction was Failed", data:webResponse});
                     } catch (error) {
-                        console.log(error)
+                        // console.log(error)
                        return {"error":"Transaction was Failed", "data":webResponse}
                     }
                 }
@@ -116,19 +116,19 @@ export default function Rave(props:RavePropInterface) {
                             return props.onVerifyingError({"error":"Error in verifying user payment, However, user may bill"});
                         }
                     } catch (error) {
-                        console.log(error);
+                        // console.log(error);
                         return {"error":"Error in verifying user payment, However, user may bill"}
                     }
                 }
             break;
           default:
               if(!mounted.current){
-                  console.log(mounted.current)
-                   //setvalue({...value,verify:false,visible:false,loading:false})
+                    //  console.log(mounted.current)
+                    setvalue({...value,verify:false,visible:false,loading:false})
                     props.onCancel({"error":"Transaction errors"});
                     return {"error":"Transaction errors"}
                 }else{
-                    console.log(mounted.current)
+                    // console.log(mounted.current)
                     return {"error":"Transaction errors"}
                 }
             break;
