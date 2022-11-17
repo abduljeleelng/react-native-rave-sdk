@@ -49,6 +49,11 @@ export default function App() {
         name= "Rave SDK"
         title= "Rave SDK"
         description= "React native Rave SDK"
+        subaccount={{
+          id: subaccount_ID
+          trx_type: 'subaccount_transaction_type'
+          trx_amount: 'amount'
+        }}
         logo= "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg"
         onCancel={res => {
           console.log({res})
