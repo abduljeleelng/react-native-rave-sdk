@@ -25,7 +25,7 @@ interface RavePropInterface {
 	onFailed?: any;
 	onSuccess?: any;
 	onVerifyingError?: any;
-
+	subaccount?: any;
 	colour: string;
 	useCustomButton?: boolean;
 	buttonText: string;
@@ -57,6 +57,7 @@ export default function Rave(props: RavePropInterface) {
 		colour,
 		buttonText,
 		useCustomButton,
+		subaccount,
 	} = props;
 
 	const meta = {

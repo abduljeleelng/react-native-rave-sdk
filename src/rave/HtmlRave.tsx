@@ -5,7 +5,8 @@ interface HtmlRaveInterface {
     currency:string;
     country:string;
     payment_options:string;
-    redirect_url:string;
+    redirect_url: string;
+    subaccount?: any;
  
         consumer_id:number;
         consumer_mac:string;
@@ -35,6 +36,7 @@ export const HtmlRave = (props:HtmlRaveInterface):any => {
         title,
         description,
         logo,
+        subaccount
     } = props
    return `
    <!DOCTYPE html>
@@ -74,6 +76,11 @@ export const HtmlRave = (props:HtmlRaveInterface):any => {
                            amount: ${amount},
                            currency: "${currency}",
                            payment_options: "${payment_options}",
+                           subaccounts: [{
+							id: "${subaccount.id}",
+							transaction_charge_type: "${subaccount.trx_type}",
+    						transaction_charge: "${subaccount.trx_amount}",
+						   }],
                             meta: {
                                 consumer_id: "${consumer_id}",
                                 consumer_mac: "${consumer_mac}",
