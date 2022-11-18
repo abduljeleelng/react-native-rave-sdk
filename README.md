@@ -94,7 +94,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abduljeleelng"><img src="https://avatars.githubusercontent.com/u/46464883?v=4?s=100" width="100px;" alt="Abduljeleel Yusuff"/><br /><sub><b>Abduljeleel Yusuff</b></sub></a><br /><a href="https://github.com/abduljeleelng/react-native-rave-sdk/commits?author=abduljeleelng" title="Documentation">📖</a> <a href="https://github.com/abduljeleelng/react-native-rave-sdk/commits?author=abduljeleelng" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/abduljeleelng"><img src="https://avatars.githubusercontent.com/u/46464883?v=4?s=100" width="100px;" alt="Abduljeleel Yusuff"/><br /><sub><b>Abduljeleel Yusuff</b></sub></a><br /><a href="https://github.com/abduljeleelng/react-native-rave-sdk/commits?author=abduljeleelng" title="Documentation">📖</a> <a href="https://github.com/abduljeleelng/react-native-rave-sdk/commits?author=abduljeleelng" title="Code">💻</a> <a href="#maintenance-abduljeleelng" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
   <tfoot>
