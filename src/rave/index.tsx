@@ -1,8 +1,9 @@
-import React,{useState,useEffect} from 'react';
-import { View,Dimensions,StyleSheet, Modal, ActivityIndicator,Text,Button } from 'react-native';
+import React,{useState,useEffect,ReactNode} from 'react';
+import { View,Dimensions,StyleSheet, Modal, ActivityIndicator,Text,Button, ButtonProps  } from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import { verifyPayment} from '../utils';
 import { HtmlRave } from './HtmlRave';
+
 
 
 interface RavePropInterface {
@@ -19,16 +20,19 @@ interface RavePropInterface {
     email:string;
     phone_number:string;
     name:string;
-    title:string;
-    description:string;
-    logo:string;
+    title?:string;
+    description?:string;
+    logo?:string;
     onCancel?:any;
     onFailed?:any;
     onSuccess?:any;
     onVerifyingError?:any;
-   
     colour:string;
     buttonText:string;
+    customButtonProps?:{
+        ButtonComp:ReactNode | ButtonProps 
+    }
+
     
 }
 
@@ -129,6 +133,13 @@ export default function Rave(props:RavePropInterface) {
         }
     };
 
+    const {
+        ButtonComp,
+        ...restButtonCompProps
+    } = props.customButtonProps
+
+    const RaveButton = ButtonComp || Button
+
 
     const payLoad = {
         FLW_PUBLIC_KEY,
@@ -197,11 +208,12 @@ export default function Rave(props:RavePropInterface) {
                             </>
                             :
                             <>
-                                <Button 
+                                <RaveButton 
                                     color={colour}
                                     disabled={loading} 
                                     title={buttonText}
                                     onPress={()=>setvalue({...value, visible:true})}
+                                    {...restButtonCompProps}
                                 />
                             </>
                     }
@@ -244,12 +256,5 @@ Rave.defaultProps = {
     currency:"NGN",
     country: "NG",
     payment_options: "card, mobilemoneyghana, ussd",
-    consumer_id: 23,
-    consumer_mac: "92a3-912ba-1192a",
-    email: "test@test.com",
-    phone_number: "09030304567",
-    name: "Rave SDK",
-    title: "Rave SDK",
-    description: "React native Rave SDK",
-    logo: "https://reactnative.dev/img/tiny_logo.png",
+    customButtonProps:{}
 };
