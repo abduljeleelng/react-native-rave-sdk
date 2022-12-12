@@ -1,6 +1,6 @@
 {
   "name": "react-native-rave-sdk",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "React Native Fluterwave Rave SDK ",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
